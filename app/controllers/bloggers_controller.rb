@@ -1,5 +1,6 @@
 class BloggersController < ApplicationController
 
+
     def show 
         @blogger = Blogger.find(params[:id])
     end
@@ -11,15 +12,19 @@ class BloggersController < ApplicationController
     def create
         @blogger = Blogger.create(blogger_params)
         if @blogger.valid?
-            redirect_to  blogger_path(@blogger) 
+            redirect_to  blogger_path
 
         else
             flash[:errors]= @blogger.errors.full_messages 
             redirect_to new_blogger_path
 
         end
-
     end
+    
+    private
 
+    def blogger_params
+        params.require(:blogger).permit(:name, :bio, :age)
+    end
 
 end
